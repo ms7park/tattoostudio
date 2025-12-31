@@ -18,7 +18,17 @@
             <h1 class="logo">타투 스튜디오</h1>
             <ul class="nav-menu">
                 <li><?= $this->Html->link('갤러리', ['controller' => 'Tattoos', 'action' => 'index']) ?></li>
-                <li><?= $this->Html->link('업로드', ['controller' => 'Tattoos', 'action' => 'add']) ?></li>
+                <?php 
+                $user = $this->request->getSession()->read('Auth.User');
+                if ($user && $user['role'] === 'admin'): 
+                ?>
+                    <li><?= $this->Html->link('업로드', ['controller' => 'Tattoos', 'action' => 'add']) ?></li>
+                <?php endif; ?>
+                <?php if ($user): ?>
+                    <li><?= $this->Html->link('로그아웃', ['controller' => 'Users', 'action' => 'logout']) ?></li>
+                <?php else: ?>
+                    <li><?= $this->Html->link('로그인', ['controller' => 'Users', 'action' => 'login']) ?></li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -37,4 +47,5 @@
     </footer>
 </body>
 </html>
+
 

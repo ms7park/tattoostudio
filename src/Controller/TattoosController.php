@@ -12,6 +12,20 @@ class TattoosController extends Controller
     {
         parent::initialize();
         $this->loadComponent('Flash');
+        $this->Auth->allow(['index']);
+    }
+    
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        // add 액션은 관리자만 접근 가능
+        if (in_array($this->request->getParam('action'), ['add'])) {
+            $user = $this->Auth->user();
+            if (!$user || $user['role'] !== 'admin') {
+                $this->Flash->error('이미지 업로드는 관리자만 가능합니다.');
+                return $this->redirect(['action' => 'index']);
+            }
+        }
     }
 
     public function index()

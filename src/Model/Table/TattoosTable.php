@@ -44,3 +44,5 @@ class TattoosTable extends Table
     }
 }
 
+
+

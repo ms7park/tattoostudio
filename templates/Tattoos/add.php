@@ -33,3 +33,5 @@ $this->assign('title', '이미지 업로드');
     <?= $this->Form->end() ?>
 </div>
 
+
+
