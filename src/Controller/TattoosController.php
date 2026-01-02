@@ -6,7 +6,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\ORM\TableRegistry;
 
-class TattoosController extends Controller
+class TattoosController extends AppController
 {
     public function initialize(): void
     {

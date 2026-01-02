@@ -22,7 +22,8 @@ class Application extends BaseApplication
     {
         parent::bootstrap();
         
-        // Router 초기화
+        // Router 초기화 - RouteCollection 생성
+        Router::defaultRouteClass('DashedRoute');
         Router::reload();
 
         if (PHP_SAPI === 'cli') {
@@ -37,12 +38,17 @@ class Application extends BaseApplication
     
     public function routes(RouteBuilder $routes): void
     {
-        // BaseApplication의 routes()가 config/routes.php를 로드함
+        // BaseApplication의 routes()가 config/routes.php를 자동으로 로드함
         parent::routes($routes);
     }
 
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
+        // Router가 초기화되지 않았으면 초기화
+        if (Router::getRouteCollection() === null) {
+            Router::reload();
+        }
+        
         $middlewareQueue
             ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
             ->add(new AssetMiddleware([
